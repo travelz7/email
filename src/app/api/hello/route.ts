@@ -1,20 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { type NextApiRequest, type NextApiResponse } from 'next';
+import { NextResponse } from 'next/server'
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-    // 仅接受 POST 请求
-    if (req.method === 'POST') {
-        const { text } = req.body;
+export async function POST(request: Request) {
+    try {
+        const { text } = await request.json()
 
-        // 如果没有传入 text 参数
         if (!text) {
-            return res.status(400).json({ message: 'Text is required' });
+            return NextResponse.json(
+                { message: 'Text is required' },
+                { status: 400 }
+            )
         }
 
-        // 返回处理后的响应
-        return res.status(200).json({ greeting: `Hello ${text}` });
+        return NextResponse.json({ greeting: `Hello ${text}` }, { status: 200 })
+    } catch (error) {
+        return NextResponse.json(
+            { message: 'Invalid request body' },
+            { status: 400 }
+        )
     }
-
-    // 如果不是 POST 请求，返回 405 方法不允许
-    return res.status(405).json({ message: 'Method Not Allowed' });
 }
