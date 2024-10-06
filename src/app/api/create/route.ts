@@ -6,17 +6,33 @@ import { db } from '~/server/db'
 
 export async function POST(request: Request) {
 
-    const { text } = await request.json()
-    console.log('text', text);
+    const { to, title }: { to: string; title: string } = await request.json()
 
-    if (!text) {
+    if (!to) {
         return NextResponse.json(
             { message: 'Text is required' },
             { status: 400 }
         )
     }
 
-    return NextResponse.json({ greeting: `Hello ${text}` }, { status: 200 })
+    if (!title) {
+        return NextResponse.json(
+            { message: 'Title is required' },
+            { status: 400 })
+    }
+
+    const codeMatch = /\b\d{6}\b/.exec(title);
+    await db.email.create({
+        data: {
+            to,
+            code: codeMatch ? codeMatch[0] : null
+        }
+    })
+    if (codeMatch) {
+        console.log('codeMatch', codeMatch[0]);
+    }
+
+    return NextResponse.json({ status: 200 })
 
 }
 
