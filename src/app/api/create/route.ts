@@ -7,6 +7,7 @@ import { db } from '~/server/db'
 export async function POST(request: Request) {
 
     const { text } = await request.json()
+    console.log('text', text);
 
     if (!text) {
         return NextResponse.json(
