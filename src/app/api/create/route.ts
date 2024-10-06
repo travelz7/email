@@ -21,7 +21,9 @@ export async function POST(request: Request) {
             { status: 400 })
     }
 
-    const codeMatch = /\b\d{6}\b/.exec(title);
+    console.log('title', title);
+
+    const codeMatch = (/\d{6}/).exec(title);
     await db.email.create({
         data: {
             to,

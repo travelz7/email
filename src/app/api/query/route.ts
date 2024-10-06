@@ -15,16 +15,14 @@ export async function POST(request: Request) {
         )
     }
 
-    const code = await db.email.findFirst({
+    const data = await db.email.findFirst({
         where: {
             to,
         },
         orderBy: { createdAt: "desc" },
     });
 
-    console.log('code', code);
-
-
+    console.log('code', data?.code);
     return NextResponse.json({ status: 200 })
 
 }
