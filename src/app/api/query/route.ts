@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     });
 
     console.log('code', data?.code);
-    return NextResponse.json({ status: 200 })
+    return NextResponse.json({ code: data?.code, status: 200 })
 
 }
 
