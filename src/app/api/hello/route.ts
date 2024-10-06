@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { NextResponse } from 'next/server'
 
+
 export async function POST(request: Request) {
     try {
         const { text } = await request.json()
@@ -11,6 +12,7 @@ export async function POST(request: Request) {
                 { status: 400 }
             )
         }
+        console.log('text', text);
 
         return NextResponse.json({ greeting: `Hello ${text}` }, { status: 200 })
     } catch (error) {
@@ -20,3 +22,4 @@ export async function POST(request: Request) {
         )
     }
 }
+
